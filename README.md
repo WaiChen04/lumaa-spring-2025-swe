@@ -1,119 +1,86 @@
 # Full-Stack Coding Challenge
 
-**Deadline**: Sunday, Feb 23th 11:59 pm PST
+This repository contains a full-stack application with a backend API and a frontend interface.
 
----
+## 1. Steps to Set Up the Database (Migrations, Environment Variables)
 
-## Overview
+### Backend Setup:
+1. **Install Dependencies:**
+   - Navigate to the backend directory.
+   - Run the following command to install the necessary dependencies:
+     ```bash
+     npm install
+     ```
 
-Create a “Task Management” application with **React + TypeScript** (frontend), **Node.js** (or **Nest.js**) (backend), and **PostgreSQL** (database). The application should:
+2. **Set Up Environment Variables:**
+   - Create a `.env` file in the root of the backend project.
+   - Add the following variables (adjust as needed):
+     ```env
+     DATABASE_URL=your-database-url
+     SECRET=your-jwt-secret-key
+     PORT=your_port_num
+     ```
+   - Of course, make sure you have the PostgreSQL database running
 
-1. **Register** (sign up) and **Log in** (sign in) users.
-2. After logging in, allow users to:
-   - **View a list of tasks**.
-   - **Create a new task**.
-   - **Update an existing task** (e.g., mark complete, edit).
-   - **Delete a task**.
+## 2. How to Run the Backend
 
-Focus on **correctness**, **functionality**, and **code clarity** rather than visual design.  
-This challenge is intended to be completed within ~3 hours, so keep solutions minimal yet functional.
+1. **Install Dependencies:**
+   - Navigate to the backend folder and install the necessary dependencies:
+     ```bash
+     npm install
+     ```
 
----
+2. **Run the Backend:**
+   - To start the backend server, run the following command:
+     ```bash
+     npm run dev
+     ```
+   - The backend will be available at `http://localhost:your_port_num`
 
-## Requirements
+## 3. How to Run the Frontend
 
-### 1. Authentication
+1. **Install Dependencies:**
+   - Navigate to the frontend directory.
+   - Run the following command to install the necessary dependencies:
+     ```bash
+     npm install
+     ```
+   - Make sure the vite.config.ts file runs correct backend port as a proxy, it is set as 3001 as default
+    ```bash
+     import { defineConfig } from 'vite';
+   import react from '@vitejs/plugin-react';
+   
+   export default defineConfig({
+     plugins: [react()],
+     server: {
+       proxy: {
+         '/api': {
+           target: `http://localhost:your_port_num`, /*Change here */
+           changeOrigin: true,
+           rewrite: (path) => path.replace(/^\/api/, ''),
+         },
+       },
+     },
+   });
+     ```
 
-- **User Model**:
-  - `id`: Primary key
-  - `username`: Unique string
-  - `password`: Hashed string
-- **Endpoints**:
-  - `POST /auth/register` – Create a new user
-  - `POST /auth/login` – Login user, return a token (e.g., JWT)
-- **Secure the Tasks Routes**: Only authenticated users can perform task operations.  
-  - **Password Hashing**: Use `bcrypt` or another hashing library to store passwords securely.
-  - **Token Verification**: Verify the token (JWT) on each request to protected routes.
+2. **Run the Frontend:**
+   - To start the frontend application, run the following command:
+     ```bash
+     npm run dev
+     ```
+   - The frontend will be available at `http://localhost:5173`.
 
-### 2. Backend (Node.js or Nest.js)
+## 4. Salary Expectations per Month (Mandatory)
 
-- **Tasks CRUD**:  
-  - `GET /tasks` – Retrieve a list of tasks (optionally filtered by user).  
-  - `POST /tasks` – Create a new task.  
-  - `PUT /tasks/:id` – Update a task (e.g., mark as complete, edit text).  
-  - `DELETE /tasks/:id` – Delete a task.
-- **Task Model**:
-  - `id`: Primary key
-  - `title`: string
-  - `description`: string (optional)
-  - `isComplete`: boolean (default `false`)
-  - _(Optional)_ `userId` to link tasks to the user who created them
-- **Database**: PostgreSQL
-  - Provide instructions/migrations to set up:
-    - `users` table (with hashed passwords)
-    - `tasks` table
-- **Setup**:
-  - `npm install` to install dependencies
-  - `npm run start` (or `npm run dev`) to run the server
-  - Document any environment variables (e.g., database connection string, JWT secret)
+Please provide your salary expectations for the role. This is a mandatory field.
+$4000 per month
 
-### 3. Frontend (React + TypeScript)
+## 5. Short Video Demo
 
-- **Login / Register**:
-  - Simple forms for **Register** and **Login**.
-  - Store JWT (e.g., in `localStorage`) upon successful login.
-  - If not authenticated, the user should not see the tasks page.
-- **Tasks Page**:
-  - Fetch tasks from `GET /tasks` (including auth token in headers).
-  - Display the list of tasks.
-  - Form to create a new task (`POST /tasks`).
-  - Buttons/fields to update a task (`PUT /tasks/:id`).
-  - Button to delete a task (`DELETE /tasks/:id`).
-- **Navigation**:
-  - Show `Login`/`Register` if not authenticated.
-  - Show `Logout` if authenticated.
-- **Setup**:
-  - `npm install` then `npm start` (or `npm run dev`) to run.
-  - Document how to point the frontend at the backend (e.g., `.env` file, base URL).
 
----
 
-## Deliverables
+https://github.com/user-attachments/assets/a5b978e0-1c88-4bd1-82ec-efec4c5b67fd
 
-1. **Fork the Public Repository**: **Fork** this repo into your own GitHub account.
-2. **Implement Your Solution** in the forked repository. Make sure you're README file has:
-   - Steps to set up the database (migrations, environment variables).
-   - How to run the backend.
-   - How to run the frontend.
-   - Any relevant notes on testing.
-   - Salary Expectations per month (Mandatory)
-3. **Short Video Demo**: Provide a link (in a `.md` file in your forked repo) to a brief screen recording showing:
-   - Registering a user
-   - Logging in
-   - Creating, updating, and deleting tasks
-4. **Deadline**: Submissions are due **Sunday, Feb 23th 11:59 pm PST**.
 
-> **Note**: Please keep your solution minimal. The entire project is intended to be completed in around 3 hours. Focus on core features (registration, login, tasks CRUD) rather than polished UI or extra features.
-
----
-
-## Evaluation Criteria
-
-1. **Functionality**  
-   - Does registration and login work correctly (with password hashing)?
-   - Are tasks protected by authentication?
-   - Does the tasks CRUD flow work end-to-end?
-
-2. **Code Quality**  
-   - Is the code structured logically and typed in TypeScript?
-   - Are variable/function names descriptive?
-
-3. **Clarity**  
-   - Is the `README.md` (in your fork) clear and detailed about setup steps?
-   - Easy to run and test?
-
-4. **Maintainability**  
-   - Organized logic (controllers/services, etc.)
-   - Minimal hard-coded values
-
-Good luck, and we look forward to your submission!
+   
